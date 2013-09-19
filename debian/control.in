@@ -1,0 +1,14 @@
+Source: shout-python
+Section: sound
+Priority: optional
+Maintainer: Guillaume Pellerin <yomguy@altern.org>
+Build-Depends: @cdbs@, python2.4-dev, docbook-to-man
+Standards-Version: 3.7.2
+
+Package: shout-python
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Python bindings for libshout
+ shout-python allows you to act as a source for icecast 1 and 2, and
+ shoutcast. This module includes inline documentation, or see
+ the included example.py for a demonstration of its usage.

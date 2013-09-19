@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+# -*- mode: makefile; coding: utf-8 -*-
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+DEB_PYTHON_SYSTEM = pysupport
+include /usr/share/cdbs/1/class/python-distutils.mk
+DEB_PYTHON_SETUP_CMD = setup.py
+DEB_COMPRESS_EXCLUDE := .py
+
+# In order to regenerate 'debian/control' :
+#   DEB_AUTO_UPDATE_DEBIAN_CONTROL=yes fakeroot debian/rules clean
+# Then check manually if everything's ok
+
+DEB_UPSTREAM_URL = http://downloads.us.xiph.org/releases/libshout/
+#DEB_UPSTREAM_TARBALL_MD5 = a07941d52a4705f8d02c9c9ee6e05750
+
+
+build/ezstream::
+	docbook-to-man debian/manpage.sgml > debian/shout-python.1
+
+cleanbuilddir/ezstream::
+	rm -f debian/shout-python.1
+
+install/ezstream::
+	find debian/shout-python -depth \( -name "COPYING" \) -exec rm -rf {} \;

@@ -1,0 +1,9 @@
+MANIFEST
+README
+INSTALL
+COPYING
+setup.py
+shout.c
+example.py
+PKG-INFO
+recursive-exclude debian/

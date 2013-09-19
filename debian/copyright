@@ -1,0 +1,26 @@
+This package was debianized by Guillaume Pellerin <yomguy@altern.org> on
+Sun, 09 Dec 2007 22:10:06 +0100.
+
+It was downloaded from http://downloads.us.xiph.org/releases/libshout/
+
+Upstream Author: 
+
+    Brendan Cully <brendan@xiph.org>
+
+Copyright: 
+
+    Copyright (C) 2007 Brendan Cully
+
+License:
+    
+ The code is released under the terms of the GNU General Public License:
+
+ This program is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the Free Software
+ Foundation; either version 2, or (at your option) any later version.
+
+ The GPL may be found in /usr/share/common-licenses/GPL on a Debian system.
+
+The Debian packaging is (C) 2007, Guillaume Pellerin <yomguy@altern.org> and
+is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
+

@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: shout-python
+Version: 0.2
+Summary: Bindings for libshout 2
+Home-page: http://icecast.org/download.php
+Author: Brendan Cully
+Author-email: brendan@xiph.org
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
