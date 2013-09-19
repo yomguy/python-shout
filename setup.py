@@ -5,7 +5,7 @@ from distutils.core import setup, Extension
 import os
 import sys
 
-ver = '0.2'
+ver = '0.2.1'
 
 # write default shout.pc path into environment if PKG_CONFIG_PATH is unset
 if not os.environ.has_key('PKG_CONFIG_PATH'):
