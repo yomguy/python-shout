@@ -178,7 +178,8 @@ static kv_strint ShoutProtocolMap[] = {
 static kv_strint ShoutFormatMap[] = {
   { "ogg",    SHOUT_FORMAT_OGG },
   { "mp3",    SHOUT_FORMAT_MP3 },
-  { "vorbis", SHOUT_FORMAT_OGG }, /* for backwards compatability */
+  { "vorbis", SHOUT_FORMAT_OGG }, /* for backwards compatibility */
+  { "webm",   SHOUT_FORMAT_WEBM },
   { NULL, 0 }
 };
 
@@ -190,9 +191,9 @@ static PyMethodDef ShoutObjectMethods[] = {
   { "get_connected", (PyCFunction)pshoutobj_get_connected, METH_NOARGS,
     "Check for connection progress." },
   { "send", (PyCFunction)pshoutobj_send, METH_VARARGS,
-    "Send audio data to server." },
+    "Send data to server." },
   { "sync", (PyCFunction)pshoutobj_sync, METH_NOARGS,
-    "Sleep for time required to play previously sent audio data." },
+    "Sleep for time required to play previously sent data." },
   { "delay", (PyCFunction)pshoutobj_delay, METH_NOARGS,
     "Return amount of time in milliseconds to wait before sending more data." },
   { "queuelen", (PyCFunction)pshoutobj_queuelen, METH_NOARGS,

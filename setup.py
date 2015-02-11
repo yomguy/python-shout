@@ -5,7 +5,7 @@ from distutils.core import setup, Extension
 import os
 import sys
 
-ver = '0.2.1'
+ver = '0.2.2'
 
 # write default shout.pc path into environment if PKG_CONFIG_PATH is unset
 if not os.environ.has_key('PKG_CONFIG_PATH'):
@@ -52,7 +52,7 @@ shout = Extension('shout', sources = ['shout.c'],
                   libraries = libsonly)
 
 # data_files = []
-setup (name = 'shout-python',
+setup (name = 'python-shout',
        version = ver,
        description = 'Bindings for libshout 2',
        url = 'http://icecast.org/download.php',

@@ -1,5 +1,5 @@
 Metadata-Version: 1.0
-Name: shout-python
+Name: python-shout
 Version: 0.2.1
 Summary: Bindings for libshout 2
 Home-page: http://icecast.org/download.php
