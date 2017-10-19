@@ -6,6 +6,12 @@ make sure it can find shout (you may need to adjust PKG_CONFIG_PATH to
 contain $shout_prefix/lib/pkgcofig). Otherwise, shout-config must appear in
 your path.
 
+Debian
+------------
+sudo apt-get install libshout3-dev  // Needed for header files
+
 Installation
 ------------
-run 'python setup.py install'
+run 'python setup.py install'   // for Python 2
+  or
+run 'python3 setup.py install'  // for Python 3

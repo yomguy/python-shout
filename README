@@ -5,3 +5,5 @@ shoutcast. This module includes inline documentation, or see
 the included example.py for a demonstration of its usage.
 
 shout-python is licensed under the GNU LGPL. See COPYING for details.
+
+> **NOTE**: This version supports both Python 2 and Python 3

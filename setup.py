@@ -5,11 +5,16 @@ from distutils.core import setup, Extension
 import os
 import sys
 
-ver = '0.2.2'
+ver = '0.2.4'
 
 # write default shout.pc path into environment if PKG_CONFIG_PATH is unset
-if not os.environ.has_key('PKG_CONFIG_PATH'):
-  os.environ['PKG_CONFIG_PATH'] = '/usr/local/lib/pkgconfig'
+if not 'PKG_CONFIG_PATH' in os.environ: # os.environ.has_key('PKG_CONFIG_PATH'):
+    if os.path.exists('/usr/lib/pkgconfig'):
+        os.environ['PKG_CONFIG_PATH'] = '/usr/lib/pkgconfig'
+    else:
+        os.environ['PKG_CONFIG_PATH'] = '/usr/local/lib/pkgconfig'
+
+print('Using PKG_CONFIG_PATH=' + os.environ['PKG_CONFIG_PATH'])
 
 # Find shout compiler/linker flag via pkgconfig or shout-config
 if os.system('pkg-config --exists shout 2> /dev/null') == 0:
@@ -22,7 +27,7 @@ if os.system('pkg-config --exists shout 2> /dev/null') == 0:
 
 else:
   if os.system('pkg-config --usage 2> /dev/null') == 0:
-    print "pkg-config could not find libshout: check PKG_CONFIG_PATH"
+    print("pkg-config could not find libshout: check PKG_CONFIG_PATH")
   if os.system('shout-config 2> /dev/null') == 0:
     scfg = os.popen('shout-config --cflags')
     cflags = scfg.readline().strip()
@@ -32,7 +37,7 @@ else:
     scfg.close()
 
   else:
-    print "pkg-config and shout-config unavailable, build terminated"
+    print("pkg-config and shout-config unavailable, build terminated")
     sys.exit(1)
 
 # there must be an easier way to set up these flags!

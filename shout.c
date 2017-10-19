@@ -18,9 +18,15 @@
  *
  * $Id: shout.c 15285 2008-09-10 07:40:24Z brendan $
  */
-
+#define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <shout/shout.h>
+
+#if PY_MAJOR_VERSION >= 3
+#define PyString_Check(m) PyUnicode_Check(m)
+#define PyString_AsString(m) PyBytes_AS_STRING((PyObject*)PyUnicode_AsEncodedString(m, "ASCII", "ignore"))
+#define PyInt_Check(m) PyLong_Check(m)
+#endif
 
 static PyObject* ShoutError;
 
@@ -115,31 +121,6 @@ static char docstring[] = "Shout library v2 interface\n\n"
   "              all servers)\n"
   "      agent - for customizing the HTTP user-agent header\n\n";
 
-static PyTypeObject ShoutObject_Type = {
-  PyObject_HEAD_INIT(NULL)
-  0,
-  "shout.Shout",
-  sizeof(ShoutObject),
-  0,
-  pshoutobj_free, /* tp_dealloc */
-  0,           /* tp_print */
-  pshoutobj_getattr,
-  pshoutobj_setattr,
-  0,           /* tp_compare */
-  0,           /* tp_repr */
-  0,           /* tp_as_number */
-  0,           /* tp_as_sequence */
-  0,           /* tp_as_mapping */
-  0,           /* tp_hash */
-  0,           /* tp_call */
-  0,           /* tp_str */
-  0,           /* tp_getattro */
-  0,           /* tp_setattro */
-  0,           /* tp_as_buffer */
-  0,           /* tp_flags */
-  "See shout module help: help(shout)\n"
-};
-
 static PyMethodDef ShoutMethods[] = {
   { "version", pshout_version, METH_VARARGS,
     "Return the version of libshout being used, as a string." },
@@ -223,34 +204,139 @@ static PyMethodDef ShoutObjectMethods[] = {
   { NULL, NULL, 0, NULL }
 };
 
-void initshout(void) {
-  PyObject* mod;
-  PyObject* dict;
+#if PY_MAJOR_VERSION >= 3
+static PyTypeObject ShoutObject_Type = {
+  {PyObject_HEAD_INIT(NULL)},
+  "shout.Shout",                           /* tp_name */
+  sizeof(ShoutObject),                     /* tp_basicsize */
+  0,                                       /* tp_itemsize */
+  pshoutobj_free,                          /* tp_dealloc */
+  0,                                       /* tp_print */
+  pshoutobj_getattr,                       /* tp_getattr */
+  pshoutobj_setattr,                       /* tp_setattr */
+  0,                                       /* tp_reserved */
+  0,                                       /* tp_repr */
+  0,                                       /* tp_as_number */
+  0,                                       /* tp_as_sequence */
+  0,                                       /* tp_as_mapping */
+  0,                                       /* tp_hash */
+  0,                                       /* tp_call */
+  0,                                       /* tp_str */
+  0,                                       /* tp_getattro */
+  0,                                       /* tp_setattro */
+  0,                                       /* tp_as_buffer */
+  0,                                       /* tp_flags */
+  "See shout module help: help(shout)\n",  /* tp_doc */
+  0,                                       /* tp_traverse */
+  0,                                       /* tp_clear */
+  0,                                       /* tp_richcompare */
+  0,                                       /* tp_weaklistoffset */
+  0,                                       /* tp_iter */
+  0,                                       /* tp_iternext */
+  ShoutObjectMethods                       /* tp_methods */
+};
+#else
+static PyTypeObject ShoutObject_Type = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "shout.Shout",
+  sizeof(ShoutObject),
+  0,
+  pshoutobj_free, /* tp_dealloc */
+  0,           /* tp_print */
+  pshoutobj_getattr,
+  pshoutobj_setattr,
+  0,           /* tp_compare */
+  0,           /* tp_repr */
+  0,           /* tp_as_number */
+  0,           /* tp_as_sequence */
+  0,           /* tp_as_mapping */
+  0,           /* tp_hash */
+  0,           /* tp_call */
+  0,           /* tp_str */
+  0,           /* tp_getattro */
+  0,           /* tp_setattro */
+  0,           /* tp_as_buffer */
+  0,           /* tp_flags */
+  "See shout module help: help(shout)\n"
+};
+#endif
 
-  ShoutObject_Type.ob_type = &PyType_Type;
 
-  mod = Py_InitModule3("shout", ShoutMethods, docstring);
-  dict = PyModule_GetDict(mod);
-  ShoutError = PyErr_NewException("shout.ShoutException", NULL, NULL);
-  PyDict_SetItemString(dict, "ShoutException", ShoutError);
+#if PY_MAJOR_VERSION >= 3
 
-  PyModule_AddIntConstant(mod, "SHOUTERR_SUCCESS", SHOUTERR_SUCCESS);
-  PyModule_AddIntConstant(mod, "SHOUTERR_INSANE", SHOUTERR_INSANE);
-  PyModule_AddIntConstant(mod, "SHOUTERR_NOCONNECT", SHOUTERR_NOCONNECT);
-  PyModule_AddIntConstant(mod, "SHOUTERR_NOLOGIN", SHOUTERR_NOLOGIN);
-  PyModule_AddIntConstant(mod, "SHOUTERR_SOCKET", SHOUTERR_SOCKET);
-  PyModule_AddIntConstant(mod, "SHOUTERR_MALLOC", SHOUTERR_MALLOC);
-  PyModule_AddIntConstant(mod, "SHOUTERR_METADATA", SHOUTERR_METADATA);
-  PyModule_AddIntConstant(mod, "SHOUTERR_CONNECTED", SHOUTERR_CONNECTED);
-  PyModule_AddIntConstant(mod, "SHOUTERR_UNCONNECTED", SHOUTERR_UNCONNECTED);
-  PyModule_AddIntConstant(mod, "SHOUTERR_UNSUPPORTED", SHOUTERR_UNSUPPORTED);
-  PyModule_AddIntConstant(mod, "SHOUTERR_BUSY", SHOUTERR_BUSY);
+static struct PyModuleDef cModPyShout = {
+    PyModuleDef_HEAD_INIT,
+    "shout",                             /* m_name */
+    docstring,                           /* m_doc */
+    -1,                                  /* m_size */
+    ShoutMethods,                        /* m_methods */
+    0,                                   /* m_slots */
+    0,                                   /* m_traverse */
+    0,                                   /* m_clear */
+    0                                    /* m_free */
+};
 
-  PyModule_AddStringConstant(mod, "SHOUT_AI_BITRATE", SHOUT_AI_BITRATE);
-  PyModule_AddStringConstant(mod, "SHOUT_AI_SAMPLERATE", SHOUT_AI_SAMPLERATE);
-  PyModule_AddStringConstant(mod, "SHOUT_AI_CHANNELS", SHOUT_AI_CHANNELS);
-  PyModule_AddStringConstant(mod, "SHOUT_AI_QUALITY", SHOUT_AI_QUALITY);
-}
+#define INITERROR return NULL
+
+PyMODINIT_FUNC
+PyInit_shout(void)
+
+#else
+#define INITERROR return
+
+void
+initshout(void)
+#endif
+{
+    PyObject* module;
+    PyObject* dict;
+
+#if PY_MAJOR_VERSION >=3
+    Py_TYPE(&ShoutObject_Type) = &PyType_Type;
+#else
+    ShoutObject_Type.ob_type = &PyType_Type;  // Might be able to use v3 part
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+    module = PyModule_Create(&cModPyShout);
+#else
+    module = Py_InitModule3("shout", ShoutMethods, docstring);
+#endif
+
+    if (module == NULL)
+        INITERROR;
+
+    ShoutError = PyErr_NewException("shout.ShoutException", NULL, NULL);
+    if (ShoutError == NULL) {
+        Py_DECREF(module);
+        INITERROR;
+    }
+
+    dict = PyModule_GetDict(module);
+    PyDict_SetItemString(dict, "ShoutException", ShoutError);
+
+    PyModule_AddIntConstant(module, "SHOUTERR_SUCCESS", SHOUTERR_SUCCESS);
+    PyModule_AddIntConstant(module, "SHOUTERR_INSANE", SHOUTERR_INSANE);
+    PyModule_AddIntConstant(module, "SHOUTERR_NOCONNECT", SHOUTERR_NOCONNECT);
+    PyModule_AddIntConstant(module, "SHOUTERR_NOLOGIN", SHOUTERR_NOLOGIN);
+    PyModule_AddIntConstant(module, "SHOUTERR_SOCKET", SHOUTERR_SOCKET);
+    PyModule_AddIntConstant(module, "SHOUTERR_MALLOC", SHOUTERR_MALLOC);
+    PyModule_AddIntConstant(module, "SHOUTERR_METADATA", SHOUTERR_METADATA);
+    PyModule_AddIntConstant(module, "SHOUTERR_CONNECTED", SHOUTERR_CONNECTED);
+    PyModule_AddIntConstant(module, "SHOUTERR_UNCONNECTED", SHOUTERR_UNCONNECTED);
+    PyModule_AddIntConstant(module, "SHOUTERR_UNSUPPORTED", SHOUTERR_UNSUPPORTED);
+    PyModule_AddIntConstant(module, "SHOUTERR_BUSY", SHOUTERR_BUSY);
+
+    PyModule_AddStringConstant(module, "SHOUT_AI_BITRATE", SHOUT_AI_BITRATE);
+    PyModule_AddStringConstant(module, "SHOUT_AI_SAMPLERATE", SHOUT_AI_SAMPLERATE);
+    PyModule_AddStringConstant(module, "SHOUT_AI_CHANNELS", SHOUT_AI_CHANNELS);
+    PyModule_AddStringConstant(module, "SHOUT_AI_QUALITY", SHOUT_AI_QUALITY);
+
+#if PY_MAJOR_VERSION >= 3
+    return module;
+#endif
+};
 
 /* -- shout module methods -- */
 
@@ -340,7 +426,13 @@ static PyObject* pshoutobj_getattr(PyObject* self, char* name) {
       return v;
     }
   }
+
+#if PY_MAJOR_VERSION >= 3
+  PyObject *nameobj = PyUnicode_FromString(name);
+  return PyObject_GenericGetAttr((PyObject*)self, nameobj);
+#else
   return Py_FindMethod(ShoutObjectMethods, self, name);
+#endif
 }
 
 static int pshoutobj_setattr(PyObject* self, char* name, PyObject* v) {
@@ -394,10 +486,14 @@ static PyObject* pshoutobj_close(ShoutObject* self) {
 
 static PyObject* pshoutobj_send(ShoutObject* self, PyObject* args) {
   const unsigned char* data;
-  size_t len;
+  Py_ssize_t len;
   int res;
 
+#if PY_MAJOR_VERSION >= 3
+  if (!PyArg_ParseTuple(args, "y#", &data, &len))
+#else
   if (!PyArg_ParseTuple(args, "s#", &data, &len))
+#endif
     return NULL;
 
   Py_BEGIN_ALLOW_THREADS
@@ -476,7 +572,9 @@ static PyObject* pshoutobj_set_metadata(ShoutObject* self, PyObject* args) {
     }
   }
 
+  Py_BEGIN_ALLOW_THREADS
   rc = shout_set_metadata(self->conn, metadata);
+  Py_END_ALLOW_THREADS
   shout_metadata_free(metadata);
 
   if (rc != SHOUTERR_SUCCESS) {
@@ -599,7 +697,11 @@ static int pshoutobj_set_audio_info(ShoutObjectAttr* attr, ShoutObject* self, Py
     skey = PyString_AsString(key);
     sval = PyString_AsString(val);
 
-    if ((rc = shout_set_audio_info(self->conn, skey, sval)) != SHOUTERR_SUCCESS)
+    Py_BEGIN_ALLOW_THREADS
+    rc = shout_set_audio_info(self->conn, skey, sval);
+    Py_END_ALLOW_THREADS
+
+    if (rc != SHOUTERR_SUCCESS)
       return rc;
   }
 

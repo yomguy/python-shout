@@ -7,7 +7,7 @@ import string
 import time
 
 s = shout.Shout()
-print "Using libshout version %s" % shout.version()
+print("Using libshout version %s" % shout.version())
 
 # s.host = 'localhost'
 # s.port = 8000
@@ -29,8 +29,8 @@ s.open()
 total = 0
 st = time.time()
 for fa in sys.argv[1:]:
-    print "opening file %s" % fa
-    f = open(fa)
+    print("opening file %s" % fa)
+    f = open(fa, 'rb')
     s.set_metadata({'song': fa})
 
     nbuf = f.read(4096)
@@ -43,9 +43,9 @@ for fa in sys.argv[1:]:
         s.send(buf)
         s.sync()
     f.close()
-    
+
     et = time.time()
     br = total*0.008/(et-st)
-    print "Sent %d bytes in %d seconds (%f kbps)" % (total, et-st, br)
+    print("Sent %d bytes in %d seconds (%f kbps)" % (total, et-st, br))
 
-print s.close()
+s.close()
