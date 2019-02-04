@@ -24,7 +24,7 @@
 
 #if PY_MAJOR_VERSION >= 3
 #define PyString_Check(m) PyUnicode_Check(m)
-#define PyString_AsString(m) PyBytes_AS_STRING((PyObject*)PyUnicode_AsEncodedString(m, "ASCII", "ignore"))
+#define PyString_AsString(m) PyBytes_AS_STRING((PyObject*)PyUnicode_AsEncodedString(m, "utf-8", "ignore"))
 #define PyInt_Check(m) PyLong_Check(m)
 #endif
 
