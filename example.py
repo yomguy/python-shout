@@ -12,7 +12,7 @@ print("Using libshout version %s" % shout.version())
 # s.host = 'localhost'
 # s.port = 8000
 # s.user = 'source'
-s.password = 'hackme'
+s.password = 'source2parisson'
 s.mount = "/pyshout"
 # s.format = 'vorbis' | 'mp3'
 # s.protocol = 'http' | 'xaudiocast' | 'icy'
