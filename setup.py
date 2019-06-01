@@ -4,8 +4,12 @@
 from distutils.core import setup, Extension
 import os
 import sys
+import setuptools
 
-ver = '0.2.4'
+ver = '0.2.5'
+
+with open("README", "r") as fh:
+    long_description = fh.read()
 
 # write default shout.pc path into environment if PKG_CONFIG_PATH is unset
 if not 'PKG_CONFIG_PATH' in os.environ: # os.environ.has_key('PKG_CONFIG_PATH'):
@@ -60,7 +64,16 @@ shout = Extension('shout', sources = ['shout.c'],
 setup (name = 'python-shout',
        version = ver,
        description = 'Bindings for libshout 2',
+       long_description=long_description,
        url = 'http://icecast.org/download.php',
        author = 'Brendan Cully',
        author_email = 'brendan@xiph.org',
-       ext_modules = [shout])
+       packages=setuptools.find_packages(),
+       classifiers=[
+                   "Programming Language :: Python :: 3",
+                   "Programming Language :: Python :: 2",
+                   "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+                   "Operating System :: OS Independent",
+               ],
+
+       )
