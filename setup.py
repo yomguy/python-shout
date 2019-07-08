@@ -1,7 +1,7 @@
 # distutils build script
 # To install shout-python, run 'python setup.py install'
 
-from distutils.core import setup, Extension
+from setuptools import setup, Extension
 import os
 import sys
 import setuptools
@@ -68,6 +68,7 @@ setup (name = 'python-shout',
        url = 'http://icecast.org/download.php',
        author = 'Brendan Cully',
        author_email = 'brendan@xiph.org',
+       ext_modules = [shout],
        packages=setuptools.find_packages(),
        classifiers=[
                    "Programming Language :: Python :: 3",
