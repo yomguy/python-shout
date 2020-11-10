@@ -8,7 +8,7 @@ import setuptools
 
 ver = '0.2.7'
 
-with open("README", "r") as fh:
+with open("README.md", "r") as fh:
     long_description = fh.read()
 
 # write default shout.pc path into environment if PKG_CONFIG_PATH is unset
