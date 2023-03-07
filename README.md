@@ -18,7 +18,7 @@ You need to have Python and libshout 2 development packages installed.
 
 For example on Debian:
 
-`sudo apt-get install python3-dev python-pip3 libshout3-dev`
+`sudo apt-get install python3-dev python3-pip libshout3-dev`
 
 If you have pkg-config installed, make sure it can find shout
 (you may need to adjust PKG_CONFIG_PATH to contain
