@@ -6,7 +6,7 @@ import os
 import sys
 import setuptools
 
-ver = '0.2.7'
+ver = '0.2.8'
 
 with open("README.md", "r") as fh:
     long_description = fh.read()

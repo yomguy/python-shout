@@ -292,8 +292,14 @@ initshout(void)
     PyObject* module;
     PyObject* dict;
 
+#if PY_VERSION_HEX < 0x030900A4 && !defined(Py_SET_TYPE)
+static inline void _Py_SET_TYPE(PyObject *ob, PyTypeObject *type)
+{ ob->ob_type = type; }
+#define Py_SET_TYPE(ob, type) _Py_SET_TYPE((PyObject*)(ob), type)
+#endif
+
 #if PY_MAJOR_VERSION >=3
-    Py_TYPE(&ShoutObject_Type) = &PyType_Type;
+    Py_SET_TYPE(&ShoutObject_Type, &PyType_Type);
 #else
     ShoutObject_Type.ob_type = &PyType_Type;  // Might be able to use v3 part
 #endif
