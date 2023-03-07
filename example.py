@@ -9,22 +9,23 @@ import time
 s = shout.Shout()
 print("Using libshout version %s" % shout.version())
 
-# s.host = 'localhost'
-# s.port = 8000
-# s.user = 'source'
-s.password = 'source2parisson'
+s.host = 'localhost'
+s.port = 8000
+s.user = 'source'
+s.password = 'MYPASSWORD'
 s.mount = "/pyshout"
-# s.format = 'vorbis' | 'mp3'
-# s.protocol = 'http' | 'xaudiocast' | 'icy'
-# s.name = ''
-# s.genre = ''
-# s.url = ''
-# s.public = 0 | 1
-# s.audio_info = { 'key': 'val', ... }
-#  (keys are shout.SHOUT_AI_BITRATE, shout.SHOUT_AI_SAMPLERATE,
-#   shout.SHOUT_AI_CHANNELS, shout.SHOUT_AI_QUALITY)
+s.format = 'mp3'
+s.protocol = 'http'
+s.name = ''
+s.genre = ''
+s.url = ''
+s.public = 0
+s.audio_info = {shout.SHOUT_AI_BITRATE:'128', shout.SHOUT_AI_SAMPLERATE:'44100', shout.SHOUT_AI_CHANNELS:'2'}
+# (keys are shout.SHOUT_AI_BITRATE, shout.SHOUT_AI_SAMPLERATE,
+#  shout.SHOUT_AI_CHANNELS, shout.SHOUT_AI_QUALITY)
 
 s.open()
+s.get_connected()
 
 total = 0
 st = time.time()
