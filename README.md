@@ -1,3 +1,5 @@
+
+
 # python-shout
 
 python-shout is a fork of the original shout-python, a set of bindings for libshout 2.
@@ -22,7 +24,7 @@ For example on Debian:
 
 If you have pkg-config installed, make sure it can find shout
 (you may need to adjust PKG_CONFIG_PATH to contain
- $shout_prefix/lib/pkgcofig). Otherwise, shout-config must
+ $shout_prefix/lib/pkgconfig). Otherwise, shout-config must
 appear in your path.
 
 Then install through pip:
@@ -39,7 +41,3 @@ python3 setup.py install
 ## License
 
 python-shout is licensed under the GNU LGPL. See COPYING for details.
-
-
-
-
